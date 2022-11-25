@@ -1,4 +1,4 @@
-## This Project makes use of Slack APIs.
+# Slack APIs.
 
 ### What you need to make it run?
 
