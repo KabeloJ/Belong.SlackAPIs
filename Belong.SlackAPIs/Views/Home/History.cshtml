@@ -1,0 +1,54 @@
+﻿@model Belong.SlackAPIs.Models.API.ChannelMessagesModel
+@{
+    ViewData["Title"] = "History";
+}
+
+<div class="text-center">
+    <h3 class="display-4">#@ViewData["Channel"] - Channel History</h3>
+</div>
+<div align="right">
+    <a class="btn btn-primary" title="Export to CSV" href="/Home/SaveToCSV?channelId=@ViewData["ChannelId"]" id="saveToCSVbtn" target="_blank">Save To CSV</a>
+</div>
+<div class="container">
+    <div class="col-md-6">
+        @if (Model != null && Model.messages != null)
+        {
+            @foreach (var c in Model.messages)
+            {
+                <div class="card mb-2">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="30%">
+                                    @c.username
+                                </th>
+                                <th width="70%"></th>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    @c.text
+                                </td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            }
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    function SaveToCSV(channelId) {
+        document.getElementById("saveToCSVbtn").innerText = "Saving...";
+        document.getElementById("saveToCSVbtn").setAttribute("disabled", "true");
+        var settings = {
+            "url": "/Home/SaveToCSV?channelId=" + channelId,
+            "method": "GET",
+            "timeout": 0,
+        };
+
+        $.ajax(settings).done(function (response) {
+            document.getElementById("saveToCSVbtn").innerText = "Save to CSV";
+            document.getElementById("saveToCSVbtn").removeAttribute("disabled");
+        });
+    }
+</script>
